@@ -16,9 +16,6 @@
 	<url/>
 	<properties>
 		<java.version>17</java.version>
-		
-		<spar-wings-spring-data-chunk.version>1.0.0</spar-wings-spring-data-chunk.version>
-		<mirage.version>3.0.0</mirage.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -46,23 +43,6 @@
 		<dependency>
 		    <groupId>org.springframework.boot</groupId>
 		    <artifactId>spring-boot-starter-websocket</artifactId>
-		</dependency>
-		
-		<dependency>
-		    <groupId>org.springframework.data</groupId>
-		    <artifactId>spring-data-commons</artifactId>
-		</dependency>
-		
-		<dependency>
-		    <groupId>com.github.unit-corp</groupId>
-		    <artifactId>spring-data-mirage</artifactId>
-		    <version>1.0.1</version> <!-- kiểm tra lại version mới nhất nếu cần -->
-		</dependency>
-		
-		<dependency>
-		    <groupId>com.github.nosdyn</groupId>
-		    <artifactId>mirage</artifactId>
-		    <version>1.2.7</version> <!-- bản Mirage 2Way SQL -->
 		</dependency>
 	</dependencies>
 
