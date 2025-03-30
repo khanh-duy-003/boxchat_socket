@@ -1,0 +1,1 @@
+select username, password, full_name from PK_DEV_ACCOUNT where USERNAME = 'abc'
