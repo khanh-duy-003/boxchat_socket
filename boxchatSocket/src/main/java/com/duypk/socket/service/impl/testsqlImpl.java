@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.duypk.socket.entity.PkDevAccountEntity;
-import com.duypk.socket.repository.TestsqlRepository;
+import com.duypk.socket.repository.PkDevAccountRepository;
 import com.duypk.socket.service.testsql;
 
 import jakarta.transaction.Transactional;
@@ -14,7 +14,7 @@ import jakarta.transaction.Transactional;
 public class testsqlImpl implements testsql{
 	
 	@Autowired
-	private TestsqlRepository sqlRepository;
+	private PkDevAccountRepository sqlRepository;
 
 	@Override
 	public PkDevAccountEntity testsql() {

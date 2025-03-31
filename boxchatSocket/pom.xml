@@ -39,10 +39,33 @@
 			<artifactId>mssql-jdbc</artifactId>
 			<scope>runtime</scope>
 		</dependency>
+		<dependency>
+		  	<groupId>org.springframework.boot</groupId>
+		  	<artifactId>spring-boot-starter-jdbc</artifactId>
+		</dependency>
 		
 		<dependency>
 		    <groupId>org.springframework.boot</groupId>
 		    <artifactId>spring-boot-starter-websocket</artifactId>
+		</dependency>
+		
+		<dependency>
+		    <groupId>org.springframework</groupId>
+		    <artifactId>spring-tx</artifactId>
+		</dependency>
+		<dependency>
+		    <groupId>org.springframework.data</groupId>
+		    <artifactId>spring-data-commons</artifactId>
+		</dependency>
+		<dependency>
+		    <groupId>vn.com.unit.spar-wings</groupId>
+		    <artifactId>spar-wings-spring-data-chunk</artifactId>
+		    <version>1.0.0</version>
+		</dependency>
+		<dependency>
+			<groupId>vn.com.unit.springframework.data.mirage</groupId>
+		 	<artifactId>spring-data-mirage</artifactId>
+		  	<version>3.0.0</version>
 		</dependency>
 	</dependencies>
 

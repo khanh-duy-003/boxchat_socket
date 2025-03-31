@@ -19,5 +19,5 @@ server:
 
 mirage:
   sql:
-    files: classpath:/sql
-    dialect: org.mirage.dialect.SqlServerDialect
+    sql-file-repository-path: classpath:/com/duypk/socket/repository
+    dialect: mssql
