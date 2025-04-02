@@ -1,24 +1,17 @@
 package com.duypk.socket.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.duypk.socket.dto.PkDevAccountDto;
-import com.duypk.socket.service.testsql;
-
 @RestController
-public class test {
+public class LoginController {
 	
-	@Autowired
-	private testsql stsql;
-	
-	@GetMapping("/home")
+	@GetMapping("/login")
 	public ResponseEntity<String> testtt() {
 		
-		return new ResponseEntity<>("abcv", HttpStatus.OK);
+		return new ResponseEntity<>("login", HttpStatus.OK);
 	}
 
 }

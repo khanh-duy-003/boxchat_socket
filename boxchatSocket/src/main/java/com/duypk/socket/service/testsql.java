@@ -1,8 +1,8 @@
 package com.duypk.socket.service;
 
-import com.duypk.socket.entity.PkDevAccountEntity;
+import com.duypk.socket.dto.PkDevAccountDto;
 
 public interface testsql {
 
-	public PkDevAccountEntity testsql();
+	public PkDevAccountDto testsql();
 }

@@ -1,56 +1,43 @@
 package com.duypk.socket.config;
 
-import org.slf4j.bridge.SLF4JBridgeHandler;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 
-import vn.com.unit.miragesql.miragesql.SqlManager;
 import vn.com.unit.miragesql.miragesql.SqlManagerImpl;
 import vn.com.unit.miragesql.miragesql.bean.BeanDescFactory;
 import vn.com.unit.miragesql.miragesql.bean.FieldPropertyExtractor;
 import vn.com.unit.miragesql.miragesql.dialect.MySQLDialect;
 import vn.com.unit.miragesql.miragesql.integration.spring.SpringConnectionProvider;
 import vn.com.unit.miragesql.miragesql.naming.RailsLikeNameConverter;
-import vn.com.unit.miragesql.miragesql.provider.ConnectionProvider;
 import vn.com.unit.springframework.data.mirage.repository.config.EnableMirageRepositories;
 
+//@EnableMirageRepositories(basePackages = {"com.duypk.socket.repository"}, sqlManagerRef = "sqlManager")
 @Configuration
-@EnableMirageRepositories(basePackages = "com.duypk.socket.repository")
+@EnableMirageRepositories(basePackages = {"com.duypk.socket.repository"})
 public class MirageConfig {
-	
-	@Autowired
-    private DataSourceTransactionManager transactionManager;
 
-    @Bean
-    public SqlManager sqlManagerService() {
+  @Bean
+  SqlManagerImpl sqlManager(DataSourceTransactionManager transactionManager) {
+      SqlManagerImpl sqlManager = new SqlManagerImpl();
+      sqlManager.setConnectionProvider(connectionProvider(transactionManager));
+      sqlManager.setDialect(new MySQLDialect());
+      sqlManager.setBeanDescFactory(beanDescFactory());
+      sqlManager.setNameConverter(new RailsLikeNameConverter());
+      return sqlManager;
+  }
 
-        // Bridge java.util.logging used by mirage
-        SLF4JBridgeHandler.removeHandlersForRootLogger();
-        SLF4JBridgeHandler.install();
+  @Bean
+  SpringConnectionProvider connectionProvider(DataSourceTransactionManager transactionManager) {
+      SpringConnectionProvider connectionProvider = new SpringConnectionProvider();
+      connectionProvider.setTransactionManager(transactionManager);
+      return connectionProvider;
+  }
 
-        SqlManagerImpl sqlManager = new SqlManagerImpl();
-        sqlManager.setConnectionProvider(connectionProvider());
-        sqlManager.setDialect(new MySQLDialect());
-        sqlManager.setBeanDescFactory(beanDescFactory());
-        sqlManager.setNameConverter(new RailsLikeNameConverter());
-
-        return sqlManager;
-    }
-
-    @Bean
-    public ConnectionProvider connectionProvider() {
-        SpringConnectionProvider springConnectionProvider = new SpringConnectionProvider();
-        springConnectionProvider.setTransactionManager(transactionManager);
-        return springConnectionProvider;
-    }
-
-    @Bean
-    public BeanDescFactory beanDescFactory() {
-        BeanDescFactory beanDescFactory = new BeanDescFactory();
-        beanDescFactory.setPropertyExtractor(new FieldPropertyExtractor());
-        return beanDescFactory;
-    }
-
+  @Bean
+  BeanDescFactory beanDescFactory() {
+      BeanDescFactory beanDescFactory = new BeanDescFactory();
+      beanDescFactory.setPropertyExtractor(new FieldPropertyExtractor());
+      return beanDescFactory;
+  }
 }

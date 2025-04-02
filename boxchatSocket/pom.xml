@@ -67,6 +67,15 @@
 		 	<artifactId>spring-data-mirage</artifactId>
 		  	<version>3.0.0</version>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
+		<dependency>
+		    <groupId>io.jsonwebtoken</groupId>
+		    <artifactId>jjwt</artifactId>
+		    <version>0.12.6</version>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -98,4 +107,16 @@
 		</plugins>
 	</build>
 
+	<licenses>
+		<license/>
+	</licenses>
+	<developers>
+		<developer/>
+	</developers>
+	<scm>
+		<connection/>
+		<developerConnection/>
+		<tag/>
+		<url/>
+	</scm>
 </project>

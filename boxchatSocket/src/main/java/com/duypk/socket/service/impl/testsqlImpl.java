@@ -3,7 +3,7 @@ package com.duypk.socket.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.duypk.socket.entity.PkDevAccountEntity;
+import com.duypk.socket.dto.PkDevAccountDto;
 import com.duypk.socket.repository.PkDevAccountRepository;
 import com.duypk.socket.service.testsql;
 
@@ -17,8 +17,8 @@ public class testsqlImpl implements testsql{
 	private PkDevAccountRepository sqlRepository;
 
 	@Override
-	public PkDevAccountEntity testsql() {
-		PkDevAccountEntity data = sqlRepository.findOne("abc");
+	public PkDevAccountDto testsql() {
+		PkDevAccountDto data = sqlRepository.testsql();
 		return data;
 	}
 
