@@ -1,7 +1,7 @@
 logging:
   level:
     ROOT: ${LOGGING_LEVEL_ROOT:INFO}
-    '[com.duypk.socket.repository]': ${LOGGING_LEVEL_SQL:DEBUG}
+    '[vn.com.unit.miragesql.miragesql]': ${LOGGING_LEVEL_SQL:DEBUG}
 
 spring:
   datasource:
@@ -31,3 +31,9 @@ server:
   port: 8080
   servlet:
     context-path: /api/socket
+
+jwt:
+  signerKey: "bkPzUp7ltD/DRwHIyWdcscDb883yruLs2E9p5UpQRtmLaysoUoTDIOe1euDd93kQ"
+
+
+
