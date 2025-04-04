@@ -1,21 +1,22 @@
 package com.duypk.socket.controller;
 
-import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.duypk.socket.core.abstractres.AbstractRest;
+import com.duypk.socket.core.basereponse.BaseRes;
 import com.duypk.socket.req.LoginReq;
 import com.duypk.socket.service.AccountLoginService;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
 @RestController
 @RequestMapping("/auth")
-public class LoginController {
+public class LoginController extends AbstractRest {
 	
 //	@GetMapping("/login")
 //	public ResponseEntity<String> testtt() {
@@ -26,10 +27,21 @@ public class LoginController {
 	@Autowired
 	private AccountLoginService accountLoginService;
     
+//	@PostMapping("/login")
+//    public ResponseEntity<?> login(@RequestBody LoginReq request) throws Exception{
+//        var result = accountLoginService.checkExitAccount(request);
+//        return ResponseEntity.ok(Map.of(result, result));
+//    }
+	
 	@PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LoginReq request) throws Exception{
-        var result = accountLoginService.checkExitAccount(request);
-        return ResponseEntity.ok(Map.of(result, result));
+    public BaseRes login(@RequestBody LoginReq req, HttpServletRequest request, HttpServletResponse response) throws Exception{
+		long start = System.currentTimeMillis();
+		try {
+	        var result = accountLoginService.checkExitAccount(req);
+	        return this.restSuccessHandle.handleSuccess(result, start);
+		} catch (Exception ex) {
+            return this.restErrorHandle.handleException(ex, request, response, start);
+        }
     }
 
 }

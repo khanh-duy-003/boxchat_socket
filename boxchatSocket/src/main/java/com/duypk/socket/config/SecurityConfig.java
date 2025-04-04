@@ -30,8 +30,8 @@ public class SecurityConfig {
 	@Bean
     SecurityFilterChain defaultSpringSecFilterChain(HttpSecurity http) throws Exception{
         http.authorizeHttpRequests(req ->
-                                req.requestMatchers("/auth/**").permitAll())
-//                                .anyRequest().authenticated())
+                                req.requestMatchers("/auth/**").permitAll()
+                                .anyRequest().authenticated())
                     .formLogin(form -> form
                                 .loginPage("/login")
                                 .permitAll())
