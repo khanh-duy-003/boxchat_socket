@@ -12,10 +12,13 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.duypk.socket.entity.PkDevAccountEntity;
 import com.duypk.socket.repository.PkDevAccountRepository;
 import com.duypk.socket.req.LoginReq;
+import com.duypk.socket.req.RegisterReq;
 import com.duypk.socket.res.LoginRes;
 import com.duypk.socket.service.AccountLoginService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nimbusds.jose.JOSEException;
 import com.nimbusds.jose.JWSAlgorithm;
 import com.nimbusds.jose.JWSHeader;
@@ -35,7 +38,15 @@ public class AccountLoginServiceImpl implements AccountLoginService {
 	
 	@Value("${jwt.signerKey}")
 	private String SIGNER_KEY;
+	
+	/* START QUERY */
+	private boolean checkExitAccount1(String username) {
+        return Objects.nonNull(accountRepository.findOne(username));
+    }
+	
+	/* END QUERY */
 
+	/* START LOGIC */
 	@Override
 	public LoginRes checkExitAccount(LoginReq req) throws Exception {
 		var user = accountRepository.findOne(req.getUsername());
@@ -45,8 +56,8 @@ public class AccountLoginServiceImpl implements AccountLoginService {
 		PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
 		boolean pwCheck = passwordEncoder.matches(req.getPassword(), user.getPassword());
 		
-//		if (!pwCheck)
-//			throw new ApplicationContextException("Sai pass");
+		if (!pwCheck)
+			throw new ApplicationContextException("Sai pass");
 		
 		var token = this.generateToken(req.getUsername());
 		
@@ -79,5 +90,19 @@ public class AccountLoginServiceImpl implements AccountLoginService {
 		}
 		
 	}
+	
+	@Override
+    public void register(RegisterReq req) throws Exception {
+        if (this.checkExitAccount1(req.getUsername()))
+            throw new ApplicationContextException("username tồn tại");
+        
+        ObjectMapper mapper = new ObjectMapper();
+        PkDevAccountEntity accountEntity = mapper.convertValue(req, PkDevAccountEntity.class);
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
+        accountEntity.setPassword(passwordEncoder.encode(req.getPassword()));
+        accountEntity.setActive(1L);
+        accountEntity.setCreatedDate(new Date());
+        accountRepository.create(accountEntity);
+    }
 
 }

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Chat với ChatBot</title>
+  <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/stompjs@2.3.3/lib/stomp.min.js"></script>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    #messages { border: 1px solid #ccc; padding: 10px; height: 300px; overflow-y: auto; margin-bottom: 10px; }
+    #messageInput { width: 80%; padding: 5px; }
+    #sendBtn { padding: 6px 12px; }
+    .user { color: blue; }
+    .bot { color: green; }
+  </style>
+</head>
+<body>
+  <h2>💬 Chat với ChatBot</h2>
+  <div id="messages"></div>
+  <input type="text" id="messageInput" placeholder="Nhập tin nhắn..." />
+  <button id="sendBtn" onclick="sendMessage()" disabled>Gửi</button>
+
+  <script>
+    let stompClient = null;
+
+    function connect() {
+      debugger;
+      const socket = new SockJS('http://localhost:8080/api/socket/botchat-mess');
+      stompClient = Stomp.over(socket);
+      const token = 'eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJhYmMiLCJzdWIiOiJhYmMiLCJleHAiOjE3NDQ3MDUxMzYsImN1c3RvbUNsYWltIjoiQ3VzdG9tIiwiaWF0IjoxNzQ0NzAxNTM2fQ.IlDe02Rk_j0-smUnrZ42eOSyxdiQ4uEK4OaW1eXqHyulDg2YfLvgWavD90ni7mgwRGy9PWg7Ly7aF4hrSQvUpQ';
+
+
+      stompClient.connect({
+        Authorization: "Bearer eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJhYmMiLCJzdWIiOiJhYmMiLCJleHAiOjE3NDQ3MDUxMzYsImN1c3RvbUNsYWltIjoiQ3VzdG9tIiwiaWF0IjoxNzQ0NzAxNTM2fQ.IlDe02Rk_j0-smUnrZ42eOSyxdiQ4uEK4OaW1eXqHyulDg2YfLvgWavD90ni7mgwRGy9PWg7Ly7aF4hrSQvUpQ"
+      }, function (frame) {
+        console.log('Đã kết nối: ' + frame);
+        document.getElementById('sendBtn').disabled = false;
+
+        stompClient.subscribe('/receive-mess/receive', function (message) {
+          const msg = JSON.parse(message.body);
+          const messageDiv = document.getElementById('messages');
+          const senderClass = msg.sender === "Bot" ? "bot" : "user";
+          messageDiv.innerHTML += `<p class="${senderClass}"><strong>${msg.sender}:</strong> ${msg.content}</p>`;
+          messageDiv.scrollTop = messageDiv.scrollHeight;
+        });
+      });
+    }
+
+    function sendMessage() {
+      const content = document.getElementById('messageInput').value;
+      if (!content.trim()) return;
+
+      const message = {
+        sender: "DuyPK",
+        content: content,
+        type: "CHAT"
+      };
+
+      stompClient.send("/send-mess/send", {}, JSON.stringify(message));
+      document.getElementById('messageInput').value = '';
+    }
+
+    connect();
+  </script>
+</body>
+</html>

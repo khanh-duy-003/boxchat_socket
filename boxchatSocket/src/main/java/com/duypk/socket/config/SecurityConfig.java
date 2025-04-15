@@ -30,7 +30,7 @@ public class SecurityConfig {
 	@Bean
     SecurityFilterChain defaultSpringSecFilterChain(HttpSecurity http) throws Exception{
         http.authorizeHttpRequests(req ->
-                                req.requestMatchers( "/api/socket/ws-chat/**","/auth/**").permitAll()
+                                req.requestMatchers("/api/socket/ws-chat/**","/auth/**").permitAll()
                                 .anyRequest().authenticated())
                     .formLogin(form -> form
                                 .loginPage("/login")
@@ -41,7 +41,9 @@ public class SecurityConfig {
                                 .permitAll());
                     
         http.oauth2ResourceServer(oauth2 ->
-        			oauth2.jwt(jwtConfigurer -> jwtConfigurer.decoder(jwtDecoder())));
+        			oauth2.jwt(jwtConfigurer -> jwtConfigurer.decoder(jwtDecoder()))
+        				  .authenticationEntryPoint(new DefaultAuthenticationEntryPoint())
+        			);
                     
         http.csrf(AbstractHttpConfigurer::disable);
         
