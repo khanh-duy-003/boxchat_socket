@@ -30,7 +30,7 @@ public class SecurityConfig {
 	@Bean
     SecurityFilterChain defaultSpringSecFilterChain(HttpSecurity http) throws Exception{
         http.authorizeHttpRequests(req ->
-                                req.requestMatchers("/auth/**").permitAll()
+                                req.requestMatchers( "/api/socket/ws-chat/**","/auth/**").permitAll()
                                 .anyRequest().authenticated())
                     .formLogin(form -> form
                                 .loginPage("/login")

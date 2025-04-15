@@ -20,6 +20,10 @@ spring:
       connection-timeout: 30000
       max-lifetime: 1800000
 
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/BOXCHAT_SOCKET
+
 #  jpa:
 #    hibernate:
 #      ddl-auto: update
