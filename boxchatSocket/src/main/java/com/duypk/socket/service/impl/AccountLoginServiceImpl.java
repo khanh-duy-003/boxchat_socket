@@ -8,12 +8,15 @@ import java.util.Objects;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContextException;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.duypk.socket.dto.SocketloginDto;
 import com.duypk.socket.entity.PkDevAccountEntity;
 import com.duypk.socket.repository.PkDevAccountRepository;
+import com.duypk.socket.req.ForgotPasswordReq;
 import com.duypk.socket.req.LoginReq;
 import com.duypk.socket.req.RegisterReq;
 import com.duypk.socket.res.LoginRes;
@@ -42,6 +45,12 @@ public class AccountLoginServiceImpl implements AccountLoginService {
 	/* START QUERY */
 	private boolean checkExitAccount1(String username) {
         return Objects.nonNull(accountRepository.findOne(username));
+    }
+	
+	@Override
+    public SocketloginDto loadUserByUsername(String username) {
+          PkDevAccountEntity accountEntity = accountRepository.findOne(username);
+          return SocketloginDto.builder().username(accountEntity.getUsername()).password(accountEntity.getPassword()).build();
     }
 	
 	/* END QUERY */
@@ -79,7 +88,6 @@ public class AccountLoginServiceImpl implements AccountLoginService {
 											.build();
 		
 		Payload payload = new Payload(jwtClaimsSet.toJSONObject());
-		
 		JWSObject jwsObject = new JWSObject(header, payload);
 		
 		try {
@@ -104,5 +112,18 @@ public class AccountLoginServiceImpl implements AccountLoginService {
         accountEntity.setCreatedDate(new Date());
         accountRepository.create(accountEntity);
     }
+
+	@Override
+	public void forgotPass(ForgotPasswordReq req) throws Exception {
+		PkDevAccountEntity accountEntity = accountRepository.findOne(req.getUsername());
+		if (Objects.isNull(accountEntity)) 
+			throw new Exception("");
+		
+//		if () {
+//			
+//		}
+		
+		
+	}
 
 }

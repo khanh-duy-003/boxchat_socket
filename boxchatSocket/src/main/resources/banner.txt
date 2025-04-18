@@ -1,5 +1,5 @@
   _ _ _ _   _       __       _ _ _ _    _ _ _ _ _  ___               ___
- |  _ _  | | |     / /      |  _ _  \  |  _ _ _ _| \  \             /  / 
+ |  _ _  | | |     / /      |  _ _  \  |  _ _ _ _| \  \             /  /
  | |   | | | |    / /       | |   \  | | |          \  \           /  /
  | |   | | | |_ _/ /        | |    | | | |           \  \         /  /
  | |_ _| | | |_   /         | |    | | | |_ _ _       \  \       /  /
@@ -8,7 +8,7 @@
  | |       | |    \ \       | |_ _ / | | |_ _ _ _        \  \_/  /
  |_|       |_|     \_\      |_ _ _ _/  |_ _ _ _ _|        \ _ _ /
  
-Application Name: ${application.name}
-Application Version: ${application.version}
+Application Name: PK DEV
+Application Version: 3.4.4
 ${AnsiColor.RED} :: Spring Boot${spring-boot.formatted-version} :: ${AnsiColor.RED}
 ${AnsiColor.DEFAULT}

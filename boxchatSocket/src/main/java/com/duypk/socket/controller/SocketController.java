@@ -1,5 +1,7 @@
 package com.duypk.socket.controller;
 
+import java.security.Principal;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
@@ -12,17 +14,27 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class SocketController {
     
-    @MessageMapping("/send") // /app/chat.sendMessage
-    @SendTo("/receive-mess/receive")             // gửi lại tới tất cả client
-    public ChatMessage sendMessage(@Payload ChatMessage message) {
-        // Xử lý chatbot ở đây (ví dụ gọi AI)
-        String botReply = "Xin chào, tôi là chatbot!"; // simple reply
-        ChatMessage botMessage = new ChatMessage();
-        botMessage.setSender(message.getSender());
-        botMessage.setContent(message.getContent());
-        botMessage.setType(ChatMessage.MessageType.CHAT);
-
-        return botMessage;
+//    @MessageMapping("/send") // /app/chat.sendMessage
+//    @SendTo("/receive-mess/receive")             // gửi lại tới tất cả client
+//    public ChatMessage sendMessage(@Payload ChatMessage message) {
+//        // Xử lý chatbot ở đây (ví dụ gọi AI)
+//        String botReply = "Xin chào, tôi là chatbot!"; // simple reply
+//        ChatMessage botMessage = new ChatMessage();
+//        botMessage.setSender(message.getSender());
+//        botMessage.setContent(message.getContent());
+//        botMessage.setType(ChatMessage.MessageType.CHAT);
+//
+//        return botMessage;
+//    }
+	
+	@MessageMapping("/send")
+    public void chat(@Payload Message message, Principal principal) {
+		Message newMessage = Message.builder()
+                .to(message.to())   // Người nhận tin nhắn
+                .message(message.message()) // Nội dung tin nhắn
+                .from(principal.getName())     // Người gửi (username của người đăng nhập)
+                .build();
+        messagingTemplate.convertAndSendToUser(message.to(), "/receive-mess/receive", newMessage);
     }
     
     @Autowired
